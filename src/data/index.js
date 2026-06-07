@@ -225,25 +225,6 @@ export const PULSE_RESPONSES = {
   },
 }
 
-/* ── Fake clients (dev data) ── */
-export const FAKE_CLIENTS = [
-  { id: 1, name: "Maëlle",  email: "maelle@example.com",  plan: "builder", status: "actif",  joined: "Jan 2025", lastActivity: "Aujourd'hui", modules: 6 },
-  { id: 2, name: "Sarah",   email: "sarah@example.com",   plan: "starter", status: "essai",  joined: "Fév 2025", lastActivity: "Hier",          modules: 3 },
-  { id: 3, name: "Karim",   email: "karim@example.com",   plan: "pro",     status: "actif",  joined: "Jan 2025", lastActivity: "Aujourd'hui",   modules: 8 },
-  { id: 4, name: "Lina",    email: "lina@example.com",    plan: "starter", status: "expiré", joined: "Déc 2024", lastActivity: "Il y a 12 j",   modules: 0 },
-  { id: 5, name: "Emma",    email: "emma@example.com",    plan: "pro",     status: "actif",  joined: "Mar 2025", lastActivity: "Il y a 2 j",    modules: 8 },
-  { id: 6, name: "Lucas",   email: "lucas@example.com",   plan: "builder", status: "actif",  joined: "Fév 2025", lastActivity: "Hier",           modules: 6 },
-  { id: 7, name: "Camille", email: "camille@example.com", plan: "starter", status: "actif",  joined: "Mar 2025", lastActivity: "Aujourd'hui",   modules: 3 },
-]
-
-/* ── Admin stats (fictif) ── */
-export const ADMIN_STATS = [
-  { label: "Clients inscrits",   value: "7",      sub: "+3 ce mois",        icon: "👥", color: "#60a5fa" },
-  { label: "Abonnements actifs", value: "4",      sub: "57% de conversion", icon: "✅", color: "#34d399" },
-  { label: "MRR estimé",        value: "116 €",  sub: "2 Pro · 2 Builder", icon: "💰", color: "#a78bfa" },
-  { label: "Taux d'utilisation", value: "68%",    sub: "Moyenne 5 derniers jours", icon: "📊", color: "#f472b6" },
-]
-
 export const STATUS_LABELS = { actif: "Actif", essai: "En essai", expiré: "Expiré" }
 
 /* ── Dev mode switcher options ── */
