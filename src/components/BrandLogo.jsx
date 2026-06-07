@@ -24,11 +24,8 @@ function BrandLogo({ size = 'md', onClick }) {
       )}
 
       <div className="brand-logo-text">
-        <div className="brand-wordmark" aria-label="AIxoria Life">
-          <span className="brand-part-aixoria">AIxoria</span>
-          <span className="brand-part-life">Life</span>
-        </div>
-        <span className="brand-tagline">by AIxoria Swift</span>
+        <span className="brand-name" aria-label="AIxoria Life">AIxoria Life</span>
+        <span className="brand-signature">by AIxoria Swift</span>
       </div>
     </div>
   )

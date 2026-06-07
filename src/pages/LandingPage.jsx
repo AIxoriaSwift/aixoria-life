@@ -24,7 +24,15 @@ export default function LandingPage() {
   return (
     <div className="landing">
 
-      {/* ── Navbar ── */}
+      {/* ── Dev bar — toujours au-dessus de la navbar ── */}
+      <div className="dev-bar">
+        <span className="dev-bar-label">🧪 Mode test</span>
+        <button className="dev-bar-link" onClick={goToApp}>Dashboard Client</button>
+        <span className="dev-bar-sep">·</span>
+        <button className="dev-bar-link" onClick={goToAdmin}>Admin</button>
+      </div>
+
+      {/* ── Navbar publique ── */}
       <nav className="landing-nav">
         <div className="landing-nav-inner">
           <BrandLogo />
@@ -40,14 +48,6 @@ export default function LandingPage() {
           </div>
         </div>
       </nav>
-
-      {/* ── Dev bar (test links) ── */}
-      <div className="dev-bar">
-        <span className="dev-bar-label">🧪 Mode test</span>
-        <button className="dev-bar-link" onClick={goToApp}>Dashboard Client</button>
-        <span className="dev-bar-sep">·</span>
-        <button className="dev-bar-link" onClick={goToAdmin}>Admin</button>
-      </div>
 
       {/* ── Hero 2 colonnes ── */}
       <section className="hero">
