@@ -25,6 +25,15 @@ const EMPTY_STATS = [
   { label: "Paiements reçus",    value: "0 CHF",  sub: "En attente de Stripe",        icon: "🏦", color: "#fbbf24" },
 ]
 
+/* ── État actuel de la plateforme ── */
+const PLATFORM_STATUS = [
+  { icon: "🔐", label: "Authentification",        status: "pending" },
+  { icon: "🗄️", label: "Base de données",          status: "pending" },
+  { icon: "💳", label: "Stripe",                   status: "pending" },
+  { icon: "🤖", label: "IA par module",            status: "pending" },
+  { icon: "📧", label: "Emails transactionnels",   status: "pending" },
+]
+
 /* ── Roadmap technique ── */
 const ROADMAP_ITEMS = [
   { icon: "🔐", label: "Authentification sécurisée", note: "Firebase / Supabase / Auth0" },
@@ -260,6 +269,22 @@ function OverviewSection() {
           </div>
         ))}
       </div>
+      <div className="adm-platform-status-card">
+        <div className="adm-platform-status-header">
+          <h3 className="adm-platform-status-title">État actuel de la plateforme</h3>
+          <p className="adm-platform-status-sub">Connexions à activer avant la mise en production.</p>
+        </div>
+        <div className="adm-platform-status-list">
+          {PLATFORM_STATUS.map((item) => (
+            <div key={item.label} className="adm-pstatus-row">
+              <span className="adm-pstatus-icon">{item.icon}</span>
+              <span className="adm-pstatus-label">{item.label}</span>
+              <span className="adm-pstatus-badge">À connecter</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="adm-roadmap-card">
         <div className="adm-roadmap-header">
           <h3 className="adm-roadmap-title">🚀 Prochaines connexions techniques</h3>
@@ -482,7 +507,7 @@ function PlansSection() {
             <div key={key} className="adm-plan-card" style={{ '--pc': plan.color }}>
               <div className="adm-plan-card-top">
                 <div className="adm-plan-badge-row">
-                  <span className="adm-plan-icon">{plan.badge}</span>
+                  <span className={`adm-plan-tier adm-plan-tier--${key}`}>{plan.badge}</span>
                   <h3 className="adm-plan-name" style={{ color: plan.color }}>{plan.name}</h3>
                 </div>
                 <div className="adm-plan-price-row">

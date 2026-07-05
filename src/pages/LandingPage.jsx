@@ -14,8 +14,10 @@ const PILLARS = [
 export default function LandingPage() {
   const navigate = useNavigate()
 
-  const goToApp   = () => navigate('/app')
-  const goToAdmin = () => navigate('/admin')
+  const goToLogin  = () => navigate('/login')
+  const goToSignup = () => navigate('/signup')
+  const goToApp    = () => navigate('/app')
+  const goToAdmin  = () => navigate('/admin')
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -43,8 +45,8 @@ export default function LandingPage() {
             <li><button className="nav-link" onClick={() => scrollTo('plans')}>Tarifs</button></li>
           </ul>
           <div className="landing-nav-actions">
-            <button className="btn-nav-ghost" onClick={goToApp}>Connexion</button>
-            <button className="btn-nav-solid" onClick={goToApp}>S'inscrire</button>
+            <button className="btn-nav-ghost" onClick={goToLogin}>Connexion</button>
+            <button className="btn-nav-solid" onClick={goToSignup}>S'inscrire</button>
           </div>
         </div>
       </nav>
@@ -61,28 +63,27 @@ export default function LandingPage() {
         <div className="hero-inner">
           {/* Colonne gauche */}
           <div className="hero-text">
-            <div className="hero-badge">✦ LE COPILOTE IA POUR REPRENDRE LE CONTRÔLE</div>
+            <div className="hero-badge">✦ COPILOTE IA — REPRENDS LE CONTRÔLE</div>
             <h1 className="hero-title">
-              Deviens discipliné.<br />
-              Organise ta vie.<br />
-              <span className="gradient-text">Lance ton activité.</span>
+              Reprends le contrôle<br />
+              de ta vie.<br />
+              <span className="gradient-text">Un plan clair chaque jour.</span>
             </h1>
             <p className="hero-subtitle">
-              AIxoria Life transforme ton ambition en actions concrètes — routines, planning, motivation intelligente, budget, contenu et business builder.
+              AIxoria Life t'aide à savoir quoi faire aujourd'hui, même quand tu es fatiguée, perdue, stressée ou bloquée. Chaque jour, l'IA te donne 3 actions simples pour avancer dans ta vie, ton argent, ton mental et tes projets.
             </p>
-            <p className="hero-phrase">Chaque jour, l'app te guide sur ce qui compte vraiment.</p>
             <div className="hero-actions">
-              <button className="btn-primary" onClick={goToApp}>
-                <span>Commencer maintenant</span>
+              <button className="btn-primary" onClick={goToSignup}>
+                <span>Créer mon plan du jour</span>
                 <IconArrow />
               </button>
-              <button className="btn-hero-ghost" onClick={() => scrollTo('modules-preview')}>
-                Voir le dashboard
+              <button className="btn-hero-blocked" onClick={() => scrollTo('features')}>
+                Je suis bloquée
               </button>
             </div>
             <div className="hero-proofs">
-              <span className="hero-proof">✓ Plan du jour</span>
-              <span className="hero-proof">✓ Score de discipline</span>
+              <span className="hero-proof">✓ 3 actions claires par jour</span>
+              <span className="hero-proof">✓ IA adaptée à ton état</span>
               <span className="hero-proof">✓ Life Pulse personnalisé</span>
             </div>
           </div>
@@ -200,7 +201,7 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="landing-cta-row">
-            <button className="btn-primary" onClick={goToApp}>
+            <button className="btn-primary" onClick={goToSignup}>
               <span>Créer mon compte gratuitement</span>
               <IconArrow />
             </button>
@@ -220,7 +221,7 @@ export default function LandingPage() {
             {Object.entries(PLAN_CONFIG).map(([key, plan]) => (
               <div key={key} className={`plan-card ${key === 'builder' ? 'plan-card--popular' : ''}`}>
                 {key === 'builder' && <div className="plan-popular-badge">Le plus choisi</div>}
-                <div className="plan-badge-icon">{plan.badge}</div>
+                <div className={`plan-badge-icon plan-badge-icon--${key}`}>{plan.badge}</div>
                 <h3 className="plan-name" style={{ color: plan.color }}>{plan.name}</h3>
                 <div className="plan-price">{plan.price}</div>
                 <ul className="plan-modules-list">
@@ -240,7 +241,7 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="btn-plan" onClick={goToApp} style={{ '--plan-color': plan.color }}>
+                <button className="btn-plan" onClick={goToSignup} style={{ '--plan-color': plan.color }}>
                   Choisir {plan.name}
                 </button>
               </div>
