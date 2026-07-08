@@ -1,9 +1,11 @@
-import { IcReceptionist, IcRelance, IcContentAgent } from './nexusIcons'
+import { useState } from 'react'
+import { IcReceptionist, IcRelance, IcContentAgent, IcCalendar, IcChevronDown } from './nexusIcons'
 
 const AGENT_ICONS = {
   receptionist: <IcReceptionist />,
   relance:      <IcRelance />,
   content:      <IcContentAgent />,
+  appointment:  <IcCalendar />,
 }
 
 const STATUS_LABELS = {
@@ -17,7 +19,8 @@ function healthColor(score) {
   return '#ef4444'
 }
 
-function NexusAgentCard({ agent }) {
+function NexusAgentCard({ agent, showDetails = false }) {
+  const [expanded, setExpanded] = useState(false)
   const color = healthColor(agent.health)
 
   return (
@@ -45,6 +48,37 @@ function NexusAgentCard({ agent }) {
         <span className="nx-agent-activity-label">Dernière activité</span>
         <span className="nx-agent-activity">{agent.lastActivity}</span>
       </div>
+
+      {showDetails && (
+        <>
+          {expanded && (
+            <div className="nx-agent-expanded">
+              <div className="nx-agent-expanded-row">
+                <span>Canaux</span>
+                <strong>{agent.channel}</strong>
+              </div>
+              <div className="nx-agent-expanded-row">
+                <span>Actions ce mois-ci</span>
+                <strong>{agent.actionsThisMonth}</strong>
+              </div>
+              <div className="nx-agent-expanded-row">
+                <span>Disponibilité</span>
+                <strong>{agent.uptime}</strong>
+              </div>
+            </div>
+          )}
+          <button
+            className="nx-agent-details-btn"
+            onClick={() => setExpanded((e) => !e)}
+            aria-expanded={expanded}
+          >
+            {expanded ? 'Masquer les détails' : 'Voir détails'}
+            <span className={`nx-agent-details-chevron${expanded ? ' nx-agent-details-chevron--up' : ''}`}>
+              <IcChevronDown />
+            </span>
+          </button>
+        </>
+      )}
     </div>
   )
 }
