@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import ClientDashboard from './pages/ClientDashboard'
 import AdminDashboard from './pages/AdminDashboard'
 import OnboardingPage from './pages/OnboardingPage'
+import NexusDashboard from './pages/NexusDashboard'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/login"       element={<LoginPage />} />
       <Route path="/onboarding"  element={<OnboardingPage />} />
       <Route path="/app"         element={<ClientDashboard />} />
+      <Route path="/nexus"       element={<NexusDashboard />} />
       <Route path="/admin"       element={<AdminDashboard />} />
       <Route path="*"            element={<LandingPage />} />
     </Routes>
