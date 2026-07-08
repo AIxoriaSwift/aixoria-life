@@ -1,16 +1,9 @@
 import { useState } from 'react'
 import {
-  IcReceptionist, IcRelance, IcContentAgent, IcCalendar, IcChevronDown,
+  AgentIcon, IcChevronDown,
   IcServices, IcMemory, IcRule, IcClockSettings, IcOpportunity, IcAlert,
 } from './nexusIcons'
 import { healthColor } from './nexusHelpers'
-
-const AGENT_ICONS = {
-  receptionist: <IcReceptionist />,
-  relance:      <IcRelance />,
-  content:      <IcContentAgent />,
-  appointment:  <IcCalendar />,
-}
 
 const STATUS_LABELS = {
   active: 'Actif',
@@ -26,7 +19,7 @@ function NexusAgentCard({ agent, showDetails = false }) {
   return (
     <div className="nx-agent-card">
       <div className="nx-agent-top">
-        <div className="nx-agent-icon">{AGENT_ICONS[agent.icon]}</div>
+        <div className="nx-agent-icon"><AgentIcon icon={agent.icon} /></div>
         <div className="nx-agent-title">
           <span className="nx-agent-name">{agent.name}</span>
           <span className={`nx-agent-status nx-agent-status--${agent.status}`}>

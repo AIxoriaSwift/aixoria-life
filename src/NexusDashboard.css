@@ -289,6 +289,12 @@
   font-size: .8rem;
   color: var(--text3);
 }
+.nx-section-head--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.nx-section-head--stacked .nx-section-sub { font-size: .88rem; }
 
 /* ── Agents ── */
 .nx-agents-grid {
@@ -940,22 +946,59 @@
   gap: 8px;
 }
 
-/* ── Impact — chart ── */
-.nx-chart-card {
+/* ── Impact — résumé premium ── */
+.nx-impact-summary {
+  padding: 20px 26px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, rgba(59,130,246,.1), rgba(139,92,246,.1));
+  border: 1px solid rgba(139,92,246,.18);
+}
+.nx-impact-summary-text {
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.nx-impact-summary-text strong {
+  color: var(--purple);
+  font-weight: 700;
+}
+
+/* ── Impact — graphique double-série (demandes / validations) ── */
+.nx-impact-chart-card {
   padding: 24px 26px 12px;
   border-radius: var(--radius-lg);
   background: var(--glass-b);
   border: 1px solid rgba(139,92,246,.12);
 }
-.nx-chart {
+.nx-impact-chart-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.nx-impact-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text2);
+}
+.nx-impact-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+.nx-impact-legend-swatch--requests { background: var(--blue); }
+.nx-impact-legend-swatch--validations { background: var(--purple); }
+
+.nx-impact-chart {
   display: flex;
   align-items: flex-end;
-  gap: 18px;
-  height: 180px;
-  padding-top: 28px;
+  gap: 14px;
+  height: 190px;
   border-bottom: 1px solid rgba(139,92,246,.14);
 }
-.nx-chart-col {
+.nx-impact-chart-col {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -963,31 +1006,24 @@
   gap: 10px;
   height: 100%;
 }
-.nx-chart-bar-wrap {
+.nx-impact-chart-bars {
   flex: 1;
   width: 100%;
-  max-width: 28px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
 }
-.nx-chart-bar-label {
-  font-size: .72rem;
-  font-weight: 700;
-  color: var(--purple);
-  margin-bottom: 6px;
-}
-.nx-chart-bar {
-  width: 100%;
+.nx-impact-bar {
+  width: 16px;
+  max-width: 40%;
   border-radius: 4px 4px 0 0;
-  background: var(--blue);
   position: relative;
-  transition: background .15s;
+  transition: opacity .15s;
 }
-.nx-chart-bar--peak { background: linear-gradient(180deg, var(--purple), var(--blue)); }
-.nx-chart-bar-tooltip {
+.nx-impact-bar--requests { background: var(--blue); }
+.nx-impact-bar--validations { background: var(--purple); }
+.nx-impact-bar-tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 50%;
@@ -1002,14 +1038,88 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity .15s, transform .15s;
+  z-index: 2;
 }
-.nx-chart-bar:hover .nx-chart-bar-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
-.nx-chart-x-label {
+.nx-impact-bar:hover .nx-impact-bar-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+.nx-impact-chart-x-label {
   font-size: .74rem;
   font-weight: 600;
   color: var(--text3);
   padding-bottom: 10px;
 }
+
+/* ── Impact par agent ── */
+.nx-impact-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.nx-impact-agent-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-b);
+  border: 1px solid rgba(139,92,246,.12);
+}
+.nx-impact-agent-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(59,130,246,.14), rgba(139,92,246,.14));
+  color: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nx-impact-agent-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.nx-impact-agent-name { font-weight: 700; font-size: .9rem; }
+.nx-impact-agent-metrics { display: flex; gap: 22px; }
+.nx-impact-agent-metric { display: flex; flex-direction: column; }
+.nx-impact-agent-metric-value {
+  font-family: var(--font-brand);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--purple);
+}
+.nx-impact-agent-metric-label { font-size: .68rem; color: var(--text3); font-weight: 600; }
+
+/* ── Ce que Nexus a évité ── */
+.nx-avoided-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.nx-avoided-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-b);
+  border: 1px solid rgba(139,92,246,.12);
+}
+.nx-avoided-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nx-avoided-card--shield .nx-avoided-icon { background: rgba(34,197,94,.12); color: #16a34a; }
+.nx-avoided-card--alert  .nx-avoided-icon { background: rgba(245,158,11,.14); color: #b45309; }
+.nx-avoided-card--clock  .nx-avoided-icon { background: rgba(59,130,246,.12); color: var(--blue); }
+.nx-avoided-count {
+  font-family: var(--font-brand);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.nx-avoided-text { font-size: .82rem; color: var(--text2); line-height: 1.45; }
 
 /* ── Mémoire IA ── */
 .nx-mem-grid {
@@ -1266,6 +1376,120 @@
   margin-top: 4px;
 }
 
+/* ── Vue globale Nexus — mountain chart (carte hero sombre premium) ── */
+.nx-mountain-card {
+  position: relative;
+  padding: 26px 30px 22px;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(700px 320px at 8% 0%, rgba(139,92,246,.35), transparent 60%),
+    radial-gradient(600px 320px at 100% 10%, rgba(59,130,246,.3), transparent 55%),
+    linear-gradient(160deg, #0c1332, #150f35 65%, #0c1332);
+  border: 1px solid rgba(139,92,246,.25);
+  box-shadow: 0 20px 50px -28px rgba(20,10,60,.6);
+  overflow: hidden;
+}
+
+.nx-mountain-head {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.nx-mountain-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #86efac;
+  background: rgba(34,197,94,.14);
+  border: 1px solid rgba(34,197,94,.25);
+}
+
+.nx-mountain-chart-wrap {
+  position: relative;
+  height: 240px;
+  cursor: crosshair;
+}
+.nx-mountain-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.nx-mountain-grid { stroke: rgba(255,255,255,.07); stroke-width: 1; }
+.nx-mountain-dot { fill: rgba(196,181,253,.5); }
+.nx-mountain-crosshair { stroke: rgba(196,181,253,.35); stroke-width: 1.5; }
+.nx-mountain-dot-active {
+  fill: #a78bfa;
+  stroke: #0c1332;
+  stroke-width: 3;
+}
+
+.nx-mountain-tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 14px));
+  min-width: 168px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background: rgba(16,10,40,.96);
+  border: 1px solid rgba(196,181,253,.25);
+  box-shadow: 0 12px 28px -12px rgba(0,0,0,.6);
+  pointer-events: none;
+  z-index: 5;
+}
+.nx-mountain-tooltip--start { transform: translate(0, calc(-100% - 14px)); }
+.nx-mountain-tooltip--end { transform: translate(-100%, calc(-100% - 14px)); }
+.nx-mountain-tooltip-day {
+  display: block;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #a78bfa;
+  margin-bottom: 6px;
+}
+.nx-mountain-tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: .78rem;
+  color: rgba(226,232,255,.75);
+  padding: 2px 0;
+}
+.nx-mountain-tooltip-row strong { color: #fff; font-weight: 700; }
+
+.nx-mountain-x-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  font-weight: 600;
+  color: rgba(226,232,255,.4);
+  padding-top: 8px;
+  margin-bottom: 22px;
+}
+
+.nx-mountain-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.nx-mountain-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.nx-mountain-metric-value {
+  font-family: var(--font-brand);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nx-mountain-metric-label {
+  font-size: .74rem;
+  font-weight: 600;
+  color: rgba(226,232,255,.55);
+}
+
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .nx-stats-grid { grid-template-columns: repeat(3, 1fr); }
@@ -1304,7 +1528,14 @@
   .nx-val-buttons { flex-wrap: wrap; }
   .nx-val-buttons .nx-action-btn { flex: 1; justify-content: center; }
   .nx-val-head { flex-wrap: wrap; }
-  .nx-chart { gap: 8px; }
+  .nx-mountain-card { padding: 20px 18px 18px; }
+  .nx-mountain-chart-wrap { height: 190px; }
+  .nx-mountain-metrics { grid-template-columns: 1fr; gap: 10px; }
+  .nx-mountain-tooltip { min-width: 148px; font-size: .74rem; }
+  .nx-impact-chart { gap: 6px; }
+  .nx-impact-summary-text { font-size: .9rem; }
+  .nx-impact-agents-grid { grid-template-columns: 1fr; }
+  .nx-avoided-grid { grid-template-columns: 1fr; }
   .nx-agent-metrics-row { grid-template-columns: repeat(3, 1fr); }
   .nx-health-card { flex-direction: column; align-items: stretch; gap: 18px; }
   .nx-health-divider { width: 100%; height: 1px; }

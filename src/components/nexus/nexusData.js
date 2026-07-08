@@ -208,19 +208,79 @@ export const NEXUS_STATS = [
 ]
 
 export const NEXUS_IMPACT_STATS = [
-  { id: 'time',        icon: 'clock',       label: 'Temps économisé',      value: '14h',  sub: 'ce mois-ci',         accent: 'blue'   },
-  { id: 'opportunity', icon: 'opportunity', label: 'Opportunités estimées', value: '2 850 €', sub: 'potentiel ce mois-ci', accent: 'purple' },
-  { id: 'requests',    icon: 'validate',    label: 'Demandes traitées',    value: '286',  sub: 'ce mois-ci',         accent: 'blue'   },
-  { id: 'followups',   icon: 'agents',      label: 'Relances préparées',   value: '58',   sub: 'ce mois-ci',         accent: 'purple' },
+  { id: 'time',        icon: 'clock',       label: 'Temps économisé',   value: '14h',       sub: 'ce mois-ci', accent: 'blue'   },
+  { id: 'requests',    icon: 'agents',      label: 'Demandes traitées', value: '126',       sub: 'ce mois-ci', accent: 'blue'   },
+  { id: 'validated',   icon: 'validate',    label: 'Actions validées',  value: '38',        sub: 'ce mois-ci', accent: 'purple' },
+  { id: 'opportunity', icon: 'opportunity', label: 'Opportunités estimées', value: "2'850 CHF", sub: 'estimées ce mois-ci', accent: 'purple' },
 ]
 
-export const NEXUS_IMPACT_WEEKLY = [
-  { label: 'S1', value: 42 },
-  { label: 'S2', value: 58 },
-  { label: 'S3', value: 51 },
-  { label: 'S4', value: 74 },
-  { label: 'S5', value: 68 },
-  { label: 'S6', value: 89 },
+export const NEXUS_IMPACT_SUMMARY = {
+  hours: '14h',
+  requests: 126,
+  opportunities: "2'850",
+  currency: 'CHF',
+}
+
+export const NEXUS_IMPACT_DAILY = [
+  { label: 'Lun', requests: 12, validations: 4 },
+  { label: 'Mar', requests: 18, validations: 6 },
+  { label: 'Mer', requests: 21, validations: 7 },
+  { label: 'Jeu', requests: 16, validations: 5 },
+  { label: 'Ven', requests: 24, validations: 9 },
+  { label: 'Sam', requests: 9,  validations: 3 },
+  { label: 'Dim', requests: 14, validations: 4 },
+]
+
+export const NEXUS_IMPACT_BY_AGENT = [
+  {
+    id: 'receptionist', icon: 'receptionist', name: 'Agent Réceptionniste',
+    metrics: [
+      { label: 'Économisées', value: '6h' },
+      { label: 'Demandes traitées', value: '42' },
+    ],
+  },
+  {
+    id: 'relance', icon: 'relance', name: 'Agent Relance',
+    metrics: [
+      { label: 'Opportunités estimées', value: "1'200 CHF" },
+      { label: 'Relances préparées', value: '18' },
+    ],
+  },
+  {
+    id: 'content', icon: 'content', name: 'Agent Contenu',
+    metrics: [
+      { label: 'Économisées', value: '3h' },
+      { label: 'Contenus générés', value: '12' },
+    ],
+  },
+  {
+    id: 'appointment', icon: 'appointment', name: 'Agent Rendez-vous',
+    metrics: [
+      { label: 'Économisées', value: '2h' },
+      { label: 'Rendez-vous gérés', value: '8' },
+    ],
+  },
+]
+
+export const NEXUS_IMPACT_AVOIDED = [
+  {
+    id: 'sensitive',
+    icon: 'shield',
+    count: 2,
+    text: 'conversations sensibles envoyées sans validation automatique',
+  },
+  {
+    id: 'error',
+    icon: 'alert',
+    count: 1,
+    text: "erreur d'automatisation détectée avant impact client",
+  },
+  {
+    id: 'forgotten',
+    icon: 'clock',
+    count: 3,
+    text: 'relances oubliées remises en attente de validation',
+  },
 ]
 
 export const NEXUS_MEMORY = {
@@ -348,3 +408,26 @@ export const NEXUS_PLANS = [
     ],
   },
 ]
+
+/* ══════════════════════════════════════════
+   VUE GLOBALE NEXUS — tendance combinée 30 jours
+   (activité agents + validations + opportunités,
+   indexées en un score composite 0-100 pour la courbe)
+   ══════════════════════════════════════════ */
+function buildGlobalTrend() {
+  const days = 30
+  const trend = []
+  for (let i = 0; i < days; i++) {
+    const progress = i / (days - 1)
+    const wobble = Math.sin(i / 2.3) * 6 + Math.sin(i / 5.7) * 3
+    const value       = Math.round(Math.min(100, Math.max(28, 52 + progress * 24 + wobble)))
+    const activity     = Math.round(58 + progress * 92 + Math.sin(i / 2.1) * 14)
+    const validations  = Math.round(6 + progress * 14 + Math.sin(i / 2.6) * 3)
+    const opportunities = Math.round(1400 + progress * 2600 + Math.sin(i / 3.1) * 400)
+    trend.push({ day: i + 1, value, activity, validations, opportunities })
+  }
+  return trend
+}
+
+export const NEXUS_GLOBAL_TREND = buildGlobalTrend()
+export const NEXUS_GLOBAL_TREND_DELTA = '+18%'

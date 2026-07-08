@@ -206,3 +206,21 @@ export const IcWebhook = ({ size = 16 }) => (
   </svg>
 )
 
+export const IcShieldCheck = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+)
+
+/* ── Icône d'agent partagée (mappe agent.icon -> pictogramme) ── */
+export const AgentIcon = ({ icon, size = 20 }) => {
+  switch (icon) {
+    case 'receptionist': return <IcReceptionist size={size} />
+    case 'relance':      return <IcRelance size={size} />
+    case 'content':      return <IcContentAgent size={size} />
+    case 'appointment':  return <IcCalendar size={size} />
+    default:             return null
+  }
+}
+

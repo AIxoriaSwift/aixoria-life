@@ -2,10 +2,20 @@ import { Link } from 'react-router-dom'
 import NexusStatCard from '../../components/nexus/NexusStatCard'
 import NexusAgentCard from '../../components/nexus/NexusAgentCard'
 import NexusActionCard from '../../components/nexus/NexusActionCard'
-import { NEXUS_STATS, NEXUS_AGENTS, NEXUS_PENDING_ACTIONS } from '../../components/nexus/nexusData'
+import NexusMountainChart from '../../components/nexus/NexusMountainChart'
+import {
+  NEXUS_STATS, NEXUS_AGENTS, NEXUS_PENDING_ACTIONS,
+  NEXUS_GLOBAL_TREND, NEXUS_GLOBAL_TREND_DELTA, NEXUS_IMPACT_STATS,
+} from '../../components/nexus/nexusData'
+
+const MINI_METRIC_IDS = ['requests', 'validated', 'opportunity']
 
 function NexusDashboardPage() {
   const previewActions = NEXUS_PENDING_ACTIONS.slice(0, 3)
+  const miniMetrics = MINI_METRIC_IDS
+    .map((id) => NEXUS_IMPACT_STATS.find((s) => s.id === id))
+    .filter(Boolean)
+    .map((s) => ({ label: s.label, value: s.value }))
 
   return (
     <>
@@ -19,6 +29,18 @@ function NexusDashboardPage() {
         {NEXUS_STATS.map((stat) => (
           <NexusStatCard key={stat.id} stat={stat} />
         ))}
+      </section>
+
+      <section className="nx-section fade-in-up">
+        <div className="nx-section-head nx-section-head--stacked">
+          <h2 className="nx-section-title">Vue globale Nexus</h2>
+          <span className="nx-section-sub">Activité, validations et opportunités estimées sur les 30 derniers jours.</span>
+        </div>
+        <NexusMountainChart
+          data={NEXUS_GLOBAL_TREND}
+          deltaLabel={NEXUS_GLOBAL_TREND_DELTA}
+          metrics={miniMetrics}
+        />
       </section>
 
       <section className="nx-section fade-in-up">
