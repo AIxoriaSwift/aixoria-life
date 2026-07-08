@@ -181,8 +181,8 @@ export const NEXUS_AGENTS = [
       { text: 'A envoyé un rappel de rendez-vous', time: 'Il y a 6 h' },
     ],
     recommendations: [
-      'Reconnecter Google Calendar pour rétablir la synchronisation.',
-      "Ajouter une alerte en cas d'échec de synchronisation.",
+      'Vérifier la synchronisation Google Calendar.',
+      "Ajouter une alerte automatique en cas de nouvel échec de synchronisation.",
     ],
   },
 ]

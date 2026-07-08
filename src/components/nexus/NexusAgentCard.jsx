@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import {
   IcReceptionist, IcRelance, IcContentAgent, IcCalendar, IcChevronDown,
-  IcServices, IcMemory, IcRule, IcClockSettings,
+  IcServices, IcMemory, IcRule, IcClockSettings, IcOpportunity, IcAlert,
 } from './nexusIcons'
+import { healthColor } from './nexusHelpers'
 
 const AGENT_ICONS = {
   receptionist: <IcReceptionist />,
@@ -17,15 +18,10 @@ const STATUS_LABELS = {
   error:  'Erreur',
 }
 
-function healthColor(score) {
-  if (score >= 85) return '#22c55e'
-  if (score >= 60) return '#f59e0b'
-  return '#ef4444'
-}
-
 function NexusAgentCard({ agent, showDetails = false }) {
   const [expanded, setExpanded] = useState(false)
   const color = healthColor(agent.health)
+  const isError = agent.status === 'error'
 
   return (
     <div className="nx-agent-card">
@@ -50,21 +46,24 @@ function NexusAgentCard({ agent, showDetails = false }) {
 
       {showDetails && (
         <div className="nx-agent-metrics">
-          <div className="nx-agent-metric">
-            <span className="nx-agent-metric-value">{agent.actionsThisMonth}</span>
-            <span className="nx-agent-metric-label">Actions ce mois</span>
+          <div className="nx-agent-metrics-row">
+            <div className="nx-agent-metric">
+              <span className="nx-agent-metric-value">{agent.actionsThisMonth}</span>
+              <span className="nx-agent-metric-label">Actions ce mois</span>
+            </div>
+            <div className="nx-agent-metric">
+              <span className="nx-agent-metric-value">{agent.pendingActionsCount}</span>
+              <span className="nx-agent-metric-label">À valider</span>
+            </div>
+            <div className={`nx-agent-metric${agent.recentErrors.length ? ' nx-agent-metric--warn' : ''}`}>
+              <span className="nx-agent-metric-value">{agent.recentErrors.length}</span>
+              <span className="nx-agent-metric-label">Erreurs récentes</span>
+            </div>
           </div>
-          <div className="nx-agent-metric">
-            <span className="nx-agent-metric-value">{agent.pendingActionsCount}</span>
-            <span className="nx-agent-metric-label">À valider</span>
-          </div>
-          <div className={`nx-agent-metric${agent.recentErrors.length ? ' nx-agent-metric--warn' : ''}`}>
-            <span className="nx-agent-metric-value">{agent.recentErrors.length}</span>
-            <span className="nx-agent-metric-label">Erreurs récentes</span>
-          </div>
-          <div className="nx-agent-metric nx-agent-metric--impact">
-            <span className="nx-agent-metric-impact-text">{agent.estimatedImpact}</span>
-            <span className="nx-agent-metric-label">Impact estimé</span>
+          <div className="nx-agent-impact-strip">
+            <IcOpportunity size={15} />
+            <span className="nx-agent-impact-label">Impact estimé</span>
+            <span className="nx-agent-impact-text">{agent.estimatedImpact}</span>
           </div>
         </div>
       )}
@@ -129,8 +128,11 @@ function NexusAgentCard({ agent, showDetails = false }) {
                 </ul>
               </div>
 
-              <div className="nx-agent-expanded-block nx-agent-expanded-block--reco">
-                <span className="nx-agent-expanded-title">Recommandations d'amélioration</span>
+              <div className={`nx-agent-expanded-block nx-agent-expanded-block--reco${isError ? ' nx-agent-expanded-block--reco-alert' : ''}`}>
+                <span className="nx-agent-expanded-title">
+                  {isError && <IcAlert size={13} />}
+                  Recommandations d'amélioration
+                </span>
                 <ul className="nx-agent-expanded-list nx-agent-expanded-list--reco">
                   {agent.recommendations.map((r) => <li key={r}>{r}</li>)}
                 </ul>

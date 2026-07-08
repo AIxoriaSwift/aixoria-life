@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import BrandLogo from '../components/BrandLogo'
 import PlanBadge from '../components/PlanBadge'
-import { IconArrow, IconBack, IconLock, IconX } from '../components/icons'
+import { IconArrow, IconBack, IconLock, IconX, IconNexus } from '../components/icons'
 import { MODULES, PLAN_CONFIG } from '../data'
 import { loadAccount, loadSession, clearSession } from '../auth'
 
@@ -2654,6 +2654,19 @@ export default function ClientDashboard() {
             </svg>
           </button>
           <BrandLogo size="sm" onClick={() => setActiveModule(null)} />
+          <Link to="/nexus" className="mobile-nexus-btn" aria-label="AIxoria Nexus — Piloter mes agents IA">
+            <IconNexus size={17} />
+          </Link>
+        </div>
+
+        <div className="app-topbar">
+          <Link to="/nexus" className="app-topbar-nexus-btn">
+            <span className="app-topbar-nexus-icon"><IconNexus size={17} /></span>
+            <span className="app-topbar-nexus-text">
+              <span className="app-topbar-nexus-title">AIxoria Nexus</span>
+              <span className="app-topbar-nexus-sub">Piloter mes agents IA</span>
+            </span>
+          </Link>
         </div>
 
         <div className="main-content">

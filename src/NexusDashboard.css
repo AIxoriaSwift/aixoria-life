@@ -296,6 +296,131 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
+.nx-agents-grid--balanced { grid-template-columns: repeat(2, 1fr); }
+
+/* ── Santé globale des agents (page Agents IA) ── */
+.nx-health-card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 22px 28px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-b);
+  border: 1px solid rgba(139,92,246,.12);
+  box-shadow: 0 8px 24px -18px rgba(30,41,90,.4);
+}
+.nx-health-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.nx-health-ring {
+  --score: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: conic-gradient(var(--ring-color) calc(var(--score) * 3.6deg), rgba(16,27,51,.08) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nx-health-ring-value {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--glass-b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-brand);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.nx-health-score-label {
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--text3);
+}
+
+.nx-health-divider {
+  width: 1px;
+  height: 64px;
+  background: rgba(139,92,246,.16);
+  flex-shrink: 0;
+}
+
+.nx-health-counts {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+}
+.nx-health-count {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nx-health-count-value {
+  font-family: var(--font-brand);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.nx-health-count-label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text3);
+}
+.nx-health-count--active .nx-health-count-value { color: #16a34a; }
+.nx-health-count--review .nx-health-count-value { color: #b45309; }
+.nx-health-count--error  .nx-health-count-value { color: #dc2626; }
+
+/* ── Comparaison des scores santé (mini bar chart) ── */
+.nx-health-chart-card {
+  padding: 22px 26px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-b);
+  border: 1px solid rgba(139,92,246,.12);
+}
+.nx-health-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.nx-health-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nx-health-chart-label {
+  width: 160px;
+  flex-shrink: 0;
+  font-size: .84rem;
+  font-weight: 600;
+  color: var(--text2);
+}
+.nx-health-chart-track {
+  flex: 1;
+  height: 12px;
+  border-radius: 100px;
+  background: rgba(139,92,246,.08);
+  overflow: hidden;
+}
+.nx-health-chart-bar {
+  height: 100%;
+  border-radius: 100px;
+  transition: width .3s ease;
+}
+.nx-health-chart-value {
+  width: 30px;
+  flex-shrink: 0;
+  text-align: right;
+  font-family: var(--font-brand);
+  font-size: .92rem;
+  font-weight: 700;
+}
 
 .nx-agent-card {
   display: flex;
@@ -398,41 +523,62 @@
 
 /* ── Métriques de pilotage (page Agents IA) ── */
 .nx-agent-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.nx-agent-metrics-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
 .nx-agent-metric {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 10px 8px;
+  gap: 4px;
+  padding: 12px 10px;
   border-radius: var(--radius-sm);
   background: rgba(139,92,246,.05);
   text-align: center;
 }
 .nx-agent-metric-value {
   font-family: var(--font-brand);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--text);
+  line-height: 1.1;
 }
 .nx-agent-metric-label {
-  font-size: .64rem;
+  font-size: .68rem;
   font-weight: 600;
   color: var(--text3);
   line-height: 1.3;
 }
 .nx-agent-metric--warn { background: rgba(220,38,38,.07); }
 .nx-agent-metric--warn .nx-agent-metric-value { color: #dc2626; }
-.nx-agent-metric--impact {
-  justify-content: center;
+
+.nx-agent-impact-strip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, rgba(59,130,246,.08), rgba(139,92,246,.08));
+  color: var(--purple);
 }
-.nx-agent-metric-impact-text {
+.nx-agent-impact-label {
   font-size: .68rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+.nx-agent-impact-text {
+  font-size: .82rem;
+  font-weight: 700;
   color: var(--purple);
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .nx-agent-footer {
@@ -531,6 +677,18 @@
   padding: 12px 14px;
   border-radius: var(--radius-sm);
   background: linear-gradient(90deg, rgba(59,130,246,.08), rgba(139,92,246,.08));
+}
+.nx-agent-expanded-block--reco-alert {
+  background: rgba(220,38,38,.07);
+  border: 1px solid rgba(220,38,38,.16);
+}
+.nx-agent-expanded-block--reco-alert .nx-agent-expanded-title {
+  color: #dc2626;
+  align-items: center;
+}
+.nx-agent-expanded-block--reco-alert .nx-agent-expanded-list li:first-child {
+  font-weight: 700;
+  color: #dc2626;
 }
 
 .nx-agent-details-btn {
@@ -1147,7 +1305,11 @@
   .nx-val-buttons .nx-action-btn { flex: 1; justify-content: center; }
   .nx-val-head { flex-wrap: wrap; }
   .nx-chart { gap: 8px; }
-  .nx-agent-metrics { grid-template-columns: repeat(2, 1fr); }
+  .nx-agent-metrics-row { grid-template-columns: repeat(3, 1fr); }
+  .nx-health-card { flex-direction: column; align-items: stretch; gap: 18px; }
+  .nx-health-divider { width: 100%; height: 1px; }
+  .nx-health-counts { justify-content: space-between; }
+  .nx-health-chart-label { width: 96px; }
 }
 
 @media (max-width: 480px) {
