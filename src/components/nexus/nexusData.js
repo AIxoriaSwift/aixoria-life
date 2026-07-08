@@ -3,65 +3,6 @@
    (mock local, aucun backend connecté)
    ══════════════════════════════════════════ */
 
-export const NEXUS_STATS = [
-  { id: 'agents',        icon: 'agents',      label: 'Agents actifs',         value: '3',        sub: 'sur 4 déployés',        accent: 'blue'   },
-  { id: 'actions',       icon: 'validate',    label: 'Actions à valider',     value: '7',        sub: 'en attente',            accent: 'purple' },
-  { id: 'errors',        icon: 'alert',       label: 'Erreurs détectées',     value: '2',        sub: 'sur les 7 derniers jours', accent: 'amber' },
-  { id: 'time',          icon: 'clock',       label: 'Temps économisé',       value: '14h',      sub: 'ce mois-ci',            accent: 'blue'   },
-  { id: 'opportunities', icon: 'opportunity', label: 'Opportunités estimées', value: '2 850 €',  sub: "potentiel ce mois-ci",  accent: 'purple' },
-]
-
-export const NEXUS_AGENTS = [
-  {
-    id: 'receptionist',
-    icon: 'receptionist',
-    name: 'Agent Réceptionniste',
-    status: 'active',
-    health: 96,
-    lastActivity: 'Il y a 12 min — a répondu à 4 nouveaux messages clients',
-    description: 'Accueille vos clients, répond aux questions fréquentes et qualifie les demandes entrantes, 24h/24.',
-    channel: 'Site web · WhatsApp',
-    actionsThisMonth: 182,
-    uptime: '99.8 %',
-  },
-  {
-    id: 'relance',
-    icon: 'relance',
-    name: 'Agent Relance',
-    status: 'active',
-    health: 88,
-    lastActivity: 'Il y a 1 h — a relancé 6 clients inactifs',
-    description: 'Relance automatiquement les clients silencieux ainsi que les devis et paniers en attente.',
-    channel: 'Email · SMS',
-    actionsThisMonth: 94,
-    uptime: '99.1 %',
-  },
-  {
-    id: 'content',
-    icon: 'content',
-    name: 'Agent Contenu',
-    status: 'review',
-    health: 71,
-    lastActivity: 'Il y a 3 h — a généré 2 publications à valider',
-    description: 'Rédige vos publications, descriptions et réponses aux avis selon le ton de votre marque.',
-    channel: 'Réseaux sociaux · Avis Google',
-    actionsThisMonth: 47,
-    uptime: '97.4 %',
-  },
-  {
-    id: 'appointment',
-    icon: 'appointment',
-    name: 'Agent Rendez-vous',
-    status: 'active',
-    health: 92,
-    lastActivity: 'Il y a 40 min — a confirmé 3 rendez-vous',
-    description: 'Planifie, confirme et rappelle les rendez-vous clients en lien avec votre agenda.',
-    channel: 'Google Calendar · SMS',
-    actionsThisMonth: 63,
-    uptime: '99.5 %',
-  },
-]
-
 export const NEXUS_PENDING_ACTIONS = [
   {
     id: 'a1',
@@ -117,6 +58,153 @@ export const NEXUS_PENDING_ACTIONS = [
     message: "Bonjour, un petit rappel : votre rendez-vous est prévu demain à 9h00. À demain !",
     time: 'Il y a 6 h',
   },
+]
+
+function pendingCountFor(agentName) {
+  return NEXUS_PENDING_ACTIONS.filter((a) => a.agent === agentName).length
+}
+
+export const NEXUS_AGENTS = [
+  {
+    id: 'receptionist',
+    icon: 'receptionist',
+    name: 'Agent Réceptionniste',
+    status: 'active',
+    health: 96,
+    lastActivity: 'Il y a 12 min — a répondu à 4 nouveaux messages clients',
+    description: 'Accueille vos clients, répond aux questions fréquentes et qualifie les demandes entrantes, 24h/24.',
+    mission: "Accueillir chaque client entrant, répondre aux questions fréquentes et qualifier les demandes avant de les transmettre à l'équipe si nécessaire.",
+    channel: 'Site web · WhatsApp',
+    actionsThisMonth: 182,
+    pendingActionsCount: pendingCountFor('Agent Réceptionniste'),
+    recentErrors: [],
+    estimatedImpact: '6h économisées ce mois-ci',
+    memoryUsed: ['Informations entreprise', 'Horaires', 'Services', 'Ton de communication'],
+    rules: [
+      'Toujours proposer une alternative si un créneau est indisponible.',
+      'Ne jamais confirmer un rendez-vous sans vérifier la disponibilité réelle.',
+    ],
+    recentActionsList: [
+      { text: 'A répondu à 4 nouveaux messages clients', time: 'Il y a 12 min' },
+      { text: 'A qualifié une demande de devis', time: 'Il y a 1 h' },
+      { text: "A transféré une demande complexe à l'équipe", time: 'Il y a 3 h' },
+    ],
+    recommendations: [
+      'Ajouter un canal Instagram DM pour élargir la couverture.',
+      'Activer les réponses vocales pour les appels manqués.',
+    ],
+  },
+  {
+    id: 'relance',
+    icon: 'relance',
+    name: 'Agent Relance',
+    status: 'active',
+    health: 88,
+    lastActivity: 'Il y a 1 h — a relancé 6 clients inactifs',
+    description: 'Relance automatiquement les clients silencieux ainsi que les devis et paniers en attente.',
+    mission: 'Relancer automatiquement les clients silencieux, les devis et paniers en attente pour maximiser les conversions.',
+    channel: 'Email · SMS',
+    actionsThisMonth: 94,
+    pendingActionsCount: pendingCountFor('Agent Relance'),
+    recentErrors: [],
+    estimatedImpact: "1 200 € d'opportunités ce mois-ci",
+    memoryUsed: ['Informations entreprise', 'Ton de communication', 'Règles importantes'],
+    rules: [
+      'Ne jamais relancer plus de deux fois le même client sans réponse.',
+      'Adapter le ton selon le délai depuis le dernier contact.',
+    ],
+    recentActionsList: [
+      { text: 'A relancé 6 clients inactifs', time: 'Il y a 1 h' },
+      { text: 'A relancé un panier abandonné (Marc D.)', time: 'Il y a 3 h' },
+      { text: 'A détecté 2 devis sans réponse depuis 5 jours', time: 'Il y a 5 h' },
+    ],
+    recommendations: [
+      'Tester un délai de relance plus court pour les paniers abandonnés.',
+      'Segmenter les relances selon la valeur du devis.',
+    ],
+  },
+  {
+    id: 'content',
+    icon: 'content',
+    name: 'Agent Contenu',
+    status: 'review',
+    health: 71,
+    lastActivity: 'Il y a 3 h — a généré 2 publications à valider',
+    description: 'Rédige vos publications, descriptions et réponses aux avis selon le ton de votre marque.',
+    mission: 'Rédiger les publications, descriptions et réponses aux avis clients en respectant le ton de la marque.',
+    channel: 'Réseaux sociaux · Avis Google',
+    actionsThisMonth: 47,
+    pendingActionsCount: pendingCountFor('Agent Contenu'),
+    recentErrors: [
+      { message: 'Une réponse générée ne respectait pas le ton défini.', time: 'Hier' },
+    ],
+    estimatedImpact: '3h économisées ce mois-ci',
+    memoryUsed: ['Ton de communication', 'Phrases interdites', 'Services'],
+    rules: [
+      'Ne jamais utiliser une phrase de la liste interdite.',
+      'Toujours relire le ton avant publication.',
+    ],
+    recentActionsList: [
+      { text: 'A généré 2 publications à valider', time: 'Il y a 3 h' },
+      { text: 'A proposé une réponse à un avis négatif', time: 'Il y a 1 h' },
+      { text: 'A proposé une réponse à un avis positif', time: 'Il y a 5 h' },
+    ],
+    recommendations: [
+      'Varier davantage les formulations pour éviter la répétition.',
+      'Ajouter des visuels suggérés aux publications.',
+    ],
+  },
+  {
+    id: 'appointment',
+    icon: 'appointment',
+    name: 'Agent Rendez-vous',
+    status: 'error',
+    health: 54,
+    lastActivity: 'Il y a 40 min — a confirmé 3 rendez-vous',
+    description: 'Planifie, confirme et rappelle les rendez-vous clients en lien avec votre agenda.',
+    mission: "Planifier, confirmer et rappeler les rendez-vous clients en synchronisation avec l'agenda de l'entreprise.",
+    channel: 'Google Calendar · SMS',
+    actionsThisMonth: 63,
+    pendingActionsCount: pendingCountFor('Agent Rendez-vous'),
+    recentErrors: [
+      { message: 'Échec de synchronisation avec Google Calendar.', time: 'Il y a 2 h' },
+    ],
+    estimatedImpact: "2h économisées ce mois-ci — réduit par l'erreur de synchronisation",
+    memoryUsed: ['Horaires', 'Règles importantes'],
+    rules: [
+      'Toujours vérifier la disponibilité réelle avant de confirmer.',
+      "Mentionner le délai d'annulation gratuite (24h).",
+    ],
+    recentActionsList: [
+      { text: 'A confirmé 3 rendez-vous', time: 'Il y a 40 min' },
+      { text: 'Synchronisation Google Calendar en échec', time: 'Il y a 2 h' },
+      { text: 'A envoyé un rappel de rendez-vous', time: 'Il y a 6 h' },
+    ],
+    recommendations: [
+      'Reconnecter Google Calendar pour rétablir la synchronisation.',
+      "Ajouter une alerte en cas d'échec de synchronisation.",
+    ],
+  },
+]
+
+export const NEXUS_STATS = [
+  {
+    id: 'agents', icon: 'agents', label: 'Agents actifs',
+    value: String(NEXUS_AGENTS.filter((a) => a.status === 'active').length),
+    sub: `sur ${NEXUS_AGENTS.length} déployés`, accent: 'blue',
+  },
+  {
+    id: 'actions', icon: 'validate', label: 'Actions à valider',
+    value: String(NEXUS_PENDING_ACTIONS.length),
+    sub: 'en attente', accent: 'purple',
+  },
+  {
+    id: 'errors', icon: 'alert', label: 'Erreurs détectées',
+    value: String(NEXUS_AGENTS.reduce((n, a) => n + a.recentErrors.length, 0)),
+    sub: 'sur les 7 derniers jours', accent: 'amber',
+  },
+  { id: 'time',          icon: 'clock',       label: 'Temps économisé',       value: '14h',      sub: 'ce mois-ci',            accent: 'blue'   },
+  { id: 'opportunities', icon: 'opportunity', label: 'Opportunités estimées', value: '2 850 €',  sub: "potentiel ce mois-ci",  accent: 'purple' },
 ]
 
 export const NEXUS_IMPACT_STATS = [

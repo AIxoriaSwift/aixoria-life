@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { IcReceptionist, IcRelance, IcContentAgent, IcCalendar, IcChevronDown } from './nexusIcons'
+import {
+  IcReceptionist, IcRelance, IcContentAgent, IcCalendar, IcChevronDown,
+  IcServices, IcMemory, IcRule, IcClockSettings,
+} from './nexusIcons'
 
 const AGENT_ICONS = {
   receptionist: <IcReceptionist />,
@@ -11,6 +14,7 @@ const AGENT_ICONS = {
 const STATUS_LABELS = {
   active: 'Actif',
   review: 'À vérifier',
+  error:  'Erreur',
 }
 
 function healthColor(score) {
@@ -44,6 +48,27 @@ function NexusAgentCard({ agent, showDetails = false }) {
 
       <p className="nx-agent-desc">{agent.description}</p>
 
+      {showDetails && (
+        <div className="nx-agent-metrics">
+          <div className="nx-agent-metric">
+            <span className="nx-agent-metric-value">{agent.actionsThisMonth}</span>
+            <span className="nx-agent-metric-label">Actions ce mois</span>
+          </div>
+          <div className="nx-agent-metric">
+            <span className="nx-agent-metric-value">{agent.pendingActionsCount}</span>
+            <span className="nx-agent-metric-label">À valider</span>
+          </div>
+          <div className={`nx-agent-metric${agent.recentErrors.length ? ' nx-agent-metric--warn' : ''}`}>
+            <span className="nx-agent-metric-value">{agent.recentErrors.length}</span>
+            <span className="nx-agent-metric-label">Erreurs récentes</span>
+          </div>
+          <div className="nx-agent-metric nx-agent-metric--impact">
+            <span className="nx-agent-metric-impact-text">{agent.estimatedImpact}</span>
+            <span className="nx-agent-metric-label">Impact estimé</span>
+          </div>
+        </div>
+      )}
+
       <div className="nx-agent-footer">
         <span className="nx-agent-activity-label">Dernière activité</span>
         <span className="nx-agent-activity">{agent.lastActivity}</span>
@@ -53,17 +78,62 @@ function NexusAgentCard({ agent, showDetails = false }) {
         <>
           {expanded && (
             <div className="nx-agent-expanded">
-              <div className="nx-agent-expanded-row">
-                <span>Canaux</span>
-                <strong>{agent.channel}</strong>
+              <div className="nx-agent-expanded-block">
+                <span className="nx-agent-expanded-title">Mission</span>
+                <p className="nx-agent-expanded-text">{agent.mission}</p>
               </div>
-              <div className="nx-agent-expanded-row">
-                <span>Actions ce mois-ci</span>
-                <strong>{agent.actionsThisMonth}</strong>
+
+              <div className="nx-agent-expanded-block">
+                <span className="nx-agent-expanded-title">
+                  <IcServices size={13} /> Canaux connectés
+                </span>
+                <div className="nx-agent-expanded-tags">
+                  {agent.channel.split(' · ').map((c) => (
+                    <span className="nx-agent-expanded-tag" key={c}>{c}</span>
+                  ))}
+                </div>
               </div>
-              <div className="nx-agent-expanded-row">
-                <span>Disponibilité</span>
-                <strong>{agent.uptime}</strong>
+
+              <div className="nx-agent-expanded-block">
+                <span className="nx-agent-expanded-title">
+                  <IcMemory size={13} /> Mémoire utilisée
+                </span>
+                <div className="nx-agent-expanded-tags">
+                  {agent.memoryUsed.map((m) => (
+                    <span className="nx-agent-expanded-tag nx-agent-expanded-tag--memory" key={m}>{m}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="nx-agent-expanded-block">
+                <span className="nx-agent-expanded-title">
+                  <IcRule size={13} /> Règles importantes
+                </span>
+                <ul className="nx-agent-expanded-list">
+                  {agent.rules.map((r) => <li key={r}>{r}</li>)}
+                </ul>
+              </div>
+
+              <div className="nx-agent-expanded-block">
+                <span className="nx-agent-expanded-title">
+                  <IcClockSettings size={13} /> Dernières actions
+                </span>
+                <ul className="nx-agent-timeline">
+                  {agent.recentActionsList.map((a) => (
+                    <li key={a.text}>
+                      <span className="nx-agent-timeline-dot" />
+                      <span className="nx-agent-timeline-text">{a.text}</span>
+                      <span className="nx-agent-timeline-time">{a.time}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="nx-agent-expanded-block nx-agent-expanded-block--reco">
+                <span className="nx-agent-expanded-title">Recommandations d'amélioration</span>
+                <ul className="nx-agent-expanded-list nx-agent-expanded-list--reco">
+                  {agent.recommendations.map((r) => <li key={r}>{r}</li>)}
+                </ul>
               </div>
             </div>
           )}
